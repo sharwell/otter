@@ -1,0 +1,27 @@
+{
+    "_comment": "Fixture to load when integration-testing the rest interface using the test_rest.TestRestAbstractBaseCase test cases",
+
+    "11111": {},
+    "22222": [
+        {
+            "id": "aa-111-222-333",
+            "region": "dfw",
+            "config": {
+                "name": "first",
+                "countdown": 60,
+                "min_entities": 1,
+                "max_entities": 10
+            }
+        },
+        {
+            "id": "bb-111-222-333",
+            "region": "ord",
+            "config": {
+                "name": "second",
+                "countdown": 60,
+                "min_entities": 3,
+                "max_entities": 5
+            }
+        }
+    ]
+}
