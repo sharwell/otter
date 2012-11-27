@@ -5,8 +5,6 @@ Service that polls a particular AtomHopper feed
 import time
 from itertools import chain
 
-from twisted.internet.defer import Deferred
-from twisted.internet.protocol import Protocol
 from twisted.internet.task import coiterate
 
 from twisted.application.service import Service
@@ -20,29 +18,11 @@ from yunomi import timer
 
 from iso8601 import parse_date
 
+from otter.util.http import BodyReceiver
 from otter.indexer.atom import parse, entries, previous_link, updated
 from otter.indexer.state import DummyStateStore
 
 DEFAULT_INTERVAL = 10
-
-
-class _BodyReceiver(Protocol):
-    def __init__(self):
-        self.finish = Deferred()
-        self._buffer = []
-
-    def dataReceived(self, data):
-        """
-        Store data in buffer
-        """
-        self._buffer.append(data)
-
-    def connectionLost(self, reason):
-        """
-        Callback the ``finish`` ``Deferred`` with all the data that has
-        been written to the buffer.
-        """
-        self.finish.callback(''.join(self._buffer))
 
 
 class FeedPollerService(Service):
@@ -120,7 +100,7 @@ class FeedPollerService(Service):
             return e
 
         def _gotResponse(resp):
-            br = _BodyReceiver()
+            br = BodyReceiver()
 
             resp.deliverBody(br)
 
