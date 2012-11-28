@@ -4,6 +4,7 @@ PYTHONLINT=${SCRIPTSDIR}/python-lint.py
 PYDIRS=${CODEDIR} ${SCRIPTSDIR}
 DOCDIR=doc
 UNITTESTS ?= ${CODEDIR}/test
+INTEGRATIONTESTS ?= test
 
 test:	unit integration
 
@@ -17,7 +18,7 @@ unit:
 	PYTHONPATH=".:${PYTHONPATH}" trial --random 0 ${UNITTESTS}
 
 integration:
-	echo "integration test here"
+	PYTHONPATH=".:${PYTHONPATH}" trial --random 0 ${INTEGRATIONTESTS}
 
 coverage:
 	PYTHONPATH=".:${PYTHONPATH}" coverage run --source=${CODEDIR} --branch `which trial` ${CODEDIR}/test && coverage html -d _trial_coverage --omit="${CODEDIR}/test/*"
