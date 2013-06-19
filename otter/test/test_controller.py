@@ -902,3 +902,45 @@ class AcquireGroupLockTestCase(DeferredTestMixin, TestCase):
 
         self.Lock.assert_called_once_with(self.LOCK_PATH, self.client)
         self.lock.acquire.assert_called_once_with()
+
+
+class WithGroupLockTestCase(DeferredTestMixin, TestCase):
+    """
+    Tests for :func:`otter.controller.acquire_group_lock`
+    """
+
+    def setUp(self):
+        self.group = iMock(IScalingGroup, tenant_id='tenant', uuid='group')
+
+        self.lock = patch(self, 'txzookeeper.lock.Lock', spec=['release'])
+        self.lock.release.return_value = defer.succeed(self.lock)
+
+        patcher = mock.patch('otter.controller.acquire_group_lock')
+        self.acquire_group_lock = patcher.start()
+        self.addCleanup(patcher.stop)
+        self.acquire_group_lock.return_value = defer.succeed(self.lock)
+
+    def test_with_group_lock_happy_path(self):
+        """
+        Test the happy path of with_group_lock.
+        """
+        def _function():
+            return defer.succeed('Success')
+
+        d = controller.with_group_lock(self.group, _function)
+
+        result = self.successResultOf(d)
+
+        self.assertEqual(result, 'Success')
+        self.lock.release.assert_called_once_with()
+
+    def test_with_group_lock_errors(self):
+        def _function():
+            return defer.fail('Failure')
+
+        d = controller.with_group_lock(self.group, _function)
+
+        result = self.failureResultOf(d)
+
+        self.assertEqual(result, 'Failure')
+        self.lock.release.assert_called_once_with()
