@@ -100,17 +100,18 @@ class AutoscaleFixture(BaseTestFixture):
 
     def empty_scaling_group(self, group):
         """
-        Given the group, updates the group to be of 0 minentities and maxentities.
+        Given the group, updates the group to be of 0 minentities and executes
+        a scale down policy via desired_capacity=0.
         """
+        # The scale down is cause setting min=max=0, was resulting orphaned
+        # servers if set, while the servers were building.
         self.autoscale_client.update_group_config(
             group_id=group.id,
             name="delete_me_please",
             cooldown=0,
             min_entities=0,
-            max_entities=0,
+            max_entities=1,
             metadata={})
-        # scaling down to 0 desired caapacity to avoid current bug where, when servers
-        # are building, can delete group, but results in orphaned servers
         policy_data = {'desired_capacity': 0}
         self.autoscale_behaviors.create_policy_webhook(group_id=group.id,
                                                        policy_data=policy_data,

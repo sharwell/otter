@@ -242,7 +242,6 @@ class AutoscaleBehaviors(BaseBehavior):
         try:
             if policy_data['desired_capacity'] is not None:
                 sp_desired_capacity = policy_data['desired_capacity']
-                print sp_desired_capacity
         except:
             AttributeError
 
