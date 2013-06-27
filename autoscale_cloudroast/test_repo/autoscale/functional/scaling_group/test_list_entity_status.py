@@ -2,7 +2,6 @@
 Test to create and verify the state of the group.
 """
 from test_repo.autoscale.fixtures import AutoscaleFixture
-import unittest
 
 
 class GetListEntityStatusTest(AutoscaleFixture):
@@ -46,7 +45,6 @@ class GetListEntityStatusTest(AutoscaleFixture):
                         .format(self.group_state_response.headers))
         self.validate_headers(self.group_state_response.headers)
 
-    @unittest.skip('fails when run in parallel: Investigate')
     def test_entity_status(self):
         """
         Verify list status' data.
@@ -60,3 +58,4 @@ class GetListEntityStatusTest(AutoscaleFixture):
                                 msg='Less than required number of servers in desired capacity')
         self.assertLessEqual(self.group_state.desiredCapacity, self.gc_max_entities,
                              msg='Total server count is over maxEntities')
+        self.empty_scaling_group(self.group)

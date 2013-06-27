@@ -165,6 +165,7 @@ class UpdateGroupConfigTest(AutoscaleFixture):
         self.assertEquals(upd_group_resp.status_code, 400,
                           msg='Update failed with {0} as it does not include full request'
                           .format(upd_group_resp.status_code))
+        self.empty_scaling_group(self.group)
 
     def test_update_group_config_response(self):
         """
@@ -198,3 +199,4 @@ class UpdateGroupConfigTest(AutoscaleFixture):
             self.autoscale_behaviors.to_data(updated_config.metadata),
             self.gc_metadata,
             msg='Metadata in the Group config did not update')
+        self.empty_scaling_group(self.group)

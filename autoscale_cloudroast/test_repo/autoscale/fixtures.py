@@ -109,6 +109,12 @@ class AutoscaleFixture(BaseTestFixture):
             min_entities=0,
             max_entities=0,
             metadata={})
+        # scaling down to 0 desired caapacity to avoid current bug where, when servers
+        # are building, can delete group, but results in orphaned servers
+        policy_data = {'desired_capacity': 0}
+        self.autoscale_behaviors.create_policy_webhook(group_id=group.id,
+                                                       policy_data=policy_data,
+                                                       execute_policy=True)
 
     def verify_group_state(self, group_id, desired_capacity):
         """

@@ -239,8 +239,13 @@ class AutoscaleBehaviors(BaseBehavior):
             sp_change_percent = policy_data['change_percent']
         if policy_data.get('change'):
             sp_change = policy_data['change']
-        if policy_data.get('desired_capacity'):
-            sp_desired_capacity = policy_data['desired_capacity']
+        try:
+            if policy_data['desired_capacity'] is not None:
+                sp_desired_capacity = policy_data['desired_capacity']
+                print sp_desired_capacity
+        except:
+            AttributeError
+
         if policy_data.get('cooldown'):
             sp_cooldown = policy_data['cooldown']
         policy = AutoscaleBehaviors.create_policy_given(

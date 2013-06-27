@@ -93,3 +93,4 @@ class UpdateWebhook(ScalingGroupWebhookFixture):
         self.assertEquals(update_webhook_response.status_code, 400,
                           msg='Update webhook was successful with incomplete request: {0}'
                           .format(update_webhook_response.status_code))
+        self.empty_scaling_group(self.group)
