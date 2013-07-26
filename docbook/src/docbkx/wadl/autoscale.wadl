@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <application xmlns="http://wadl.dev.java.net/2009/02"
              xmlns:wadl="http://wadl.dev.java.net/2009/02"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
              xmlns:xlink="http://www.w3.org/1999/xlink"
              xmlns:db="http://docbook.org/ns/docbook"
              xmlns:raxapi="http://docs.rackspace.com/volume/api/v1">
