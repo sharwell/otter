@@ -37,7 +37,7 @@
         </executions>
         <configuration>
 	  <enableDisqus>intranet</enableDisqus>
-	  <feedbackEmail>rose.coste@rackspace.com,michael.mcgrail@rackspace.com</feedbackEmail>
+	  <feedbackEmail>rose.coste@rackspace.com,felix.sargent@rackspace.com</feedbackEmail>
 	  <branding>rackspace</branding>
           <failOnValidationerror>no</failOnValidationerror>
 	  <showXslMessages>true</showXslMessages>
